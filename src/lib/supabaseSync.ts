@@ -1,5 +1,5 @@
 import { supabase, isSupabaseConfigured } from './supabase';
-import { AppState } from '../utils/storage';
+import { AppState, sanitizeAppState } from '../utils/storage';
 
 export const SUPABASE_TABLE_NAME = 'app_data';
 export const SUPABASE_RECORD_ID = 'main_class_data';
@@ -67,7 +67,15 @@ export async function fetchAppStateFromSupabase(): Promise<AppState | null> {
       return null;
     }
 
-    return data.data as AppState;
+    const sanitized = sanitizeAppState(data.data as AppState);
+    if (
+      sanitized.settings?.schoolName !== data.data.settings?.schoolName ||
+      sanitized.settings?.teacherName !== data.data.settings?.teacherName
+    ) {
+      saveAppStateToSupabase(sanitized).catch(() => {});
+    }
+
+    return sanitized;
   } catch (err) {
     console.warn('Lỗi khi tải dữ liệu từ Supabase:', err);
     return null;

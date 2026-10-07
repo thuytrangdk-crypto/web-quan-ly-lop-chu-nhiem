@@ -35,6 +35,7 @@ import {
   loadAppState,
   saveAppState,
   resetToSampleData,
+  sanitizeAppState,
 } from './utils/storage';
 
 export default function App() {
@@ -89,7 +90,8 @@ export default function App() {
       .then((remoteState) => {
         if (!isMounted) return;
         if (remoteState && remoteState.students && remoteState.students.length > 0) {
-          setAppState(remoteState);
+          const sanitized = sanitizeAppState(remoteState);
+          setAppState(sanitized);
         } else {
           // Nếu Supabase chưa có bản ghi, lưu bản ghi khởi tạo lên
           saveAppStateToSupabase(appState).catch(() => {});

@@ -50,6 +50,60 @@ export interface AppState {
   quickNotes: QuickNote[];
 }
 
+/**
+ * Chuẩn hóa và tự động nâng cấp dữ liệu đảm bảo không bị ghi đè bởi cấu hình cũ
+ */
+export function sanitizeAppState(state: AppState): AppState {
+  if (!state || typeof state !== 'object') return state;
+
+  const currentSettings = state.settings || ({} as ClassSettings);
+  const updatedSettings: ClassSettings = {
+    ...DEFAULT_SETTINGS,
+    ...currentSettings,
+  };
+
+  // 1. Tên giáo viên chủ nhiệm
+  if (
+    !updatedSettings.teacherName ||
+    updatedSettings.teacherName === 'Cô Thùy Trang' ||
+    updatedSettings.teacherName.includes('Thùy Trang') ||
+    updatedSettings.teacherName === 'Cô Diễm Hương' ||
+    updatedSettings.teacherName.includes('Diễm Hương') ||
+    updatedSettings.teacherName === 'GVCN'
+  ) {
+    updatedSettings.teacherName = 'Nguyễn Thị Diểm Hương';
+  }
+
+  // 2. Tên trường học
+  if (
+    !updatedSettings.schoolName ||
+    updatedSettings.schoolName === 'THCS Lê Quý Đôn' ||
+    updatedSettings.schoolName.includes('Lê Quý Đôn')
+  ) {
+    updatedSettings.schoolName = 'THCS Nguyễn Huệ - Phường Phú Thọ Hòa';
+  }
+
+  // 3. Tên lớp học
+  if (updatedSettings.className === 'Lớp 8A1' || updatedSettings.className === 'Lớp 8A3') {
+    updatedSettings.className = 'Lớp 9A5';
+  }
+
+  // 4. Danh sách lớp
+  let classes = Array.isArray(state.classes) && state.classes.length > 0 ? state.classes : DEFAULT_CLASSES;
+  classes = classes.map((c) => {
+    if (c.id === 'class-8a1' || c.name === 'Lớp 8A1' || c.name === 'Lớp 8A3') {
+      return { ...c, id: 'class-9a5', name: 'Lớp 9A5', grade: 9 };
+    }
+    return c;
+  });
+
+  return {
+    ...state,
+    settings: updatedSettings,
+    classes,
+  };
+}
+
 export function loadAppState(): AppState {
   try {
     const settingsStr = localStorage.getItem(STORAGE_KEYS.SETTINGS);
@@ -64,15 +118,7 @@ export function loadAppState(): AppState {
     const quickNotesStr = localStorage.getItem(STORAGE_KEYS.QUICK_NOTES);
 
     const parsedClasses = classesStr ? JSON.parse(classesStr) : null;
-    let classes: ClassProfile[] = Array.isArray(parsedClasses) && parsedClasses.length > 0 ? parsedClasses : DEFAULT_CLASSES;
-
-    // Tự động nâng cấp nếu còn lưu lớp cũ class-8a1 / Lớp 8A3
-    classes = classes.map((c) => {
-      if (c.id === 'class-8a1' || c.name === 'Lớp 8A1' || c.name === 'Lớp 8A3') {
-        return { ...c, id: 'class-9a5', name: 'Lớp 9A5', grade: 9 };
-      }
-      return c;
-    });
+    const classes: ClassProfile[] = Array.isArray(parsedClasses) && parsedClasses.length > 0 ? parsedClasses : DEFAULT_CLASSES;
 
     const activeClassId = activeClassStr === 'class-8a1' ? 'class-9a5' : (activeClassStr || (classes[0] ? classes[0].id : 'class-9a5'));
     
@@ -82,27 +128,8 @@ export function loadAppState(): AppState {
       ...(parsedSettings && typeof parsedSettings === 'object' ? parsedSettings : {}),
     };
 
-    // Tự động cập nhật từ gốc nếu còn lưu tên GVCN cũ, lớp cũ hoặc trường cũ
-    if (
-      !settings.teacherName ||
-      settings.teacherName === 'Cô Thùy Trang' ||
-      settings.teacherName.includes('Thùy Trang') ||
-      settings.teacherName === 'Cô Diễm Hương' ||
-      settings.teacherName === 'Diễm Hương' ||
-      settings.teacherName === 'GVCN'
-    ) {
-      settings.teacherName = 'Nguyễn Thị Diểm Hương';
-    }
-    if (settings.className === 'Lớp 8A1' || settings.className === 'Lớp 8A3') {
-      settings.className = 'Lớp 9A5';
-    }
-    if (!settings.schoolName || settings.schoolName === 'THCS Lê Quý Đôn' || settings.schoolName.includes('Lê Quý Đôn')) {
-      settings.schoolName = 'THCS Nguyễn Huệ - Phường Phú Thọ Hòa';
-    }
-
     const parsedStudents = studentsStr ? JSON.parse(studentsStr) : null;
     const rawStudents: Student[] = Array.isArray(parsedStudents) ? parsedStudents : INITIAL_STUDENTS;
-    // Đảm bảo mỗi học sinh có classId chuẩn
     const students = rawStudents.map((s) => ({
       ...s,
       classId: s.classId === 'class-8a1' || !s.classId ? 'class-9a5' : s.classId,
@@ -115,7 +142,7 @@ export function loadAppState(): AppState {
     const parsedTasks = tasksStr ? JSON.parse(tasksStr) : null;
     const parsedQuickNotes = quickNotesStr ? JSON.parse(quickNotesStr) : null;
 
-    return {
+    const rawState: AppState = {
       settings,
       classes,
       activeClassId,
@@ -127,6 +154,8 @@ export function loadAppState(): AppState {
       tasks: Array.isArray(parsedTasks) ? parsedTasks : INITIAL_TASKS,
       quickNotes: Array.isArray(parsedQuickNotes) ? parsedQuickNotes : INITIAL_QUICK_NOTES,
     };
+
+    return sanitizeAppState(rawState);
   } catch (err) {
     console.error('Lỗi khi đọc dữ liệu từ LocalStorage, dùng dữ liệu mẫu:', err);
     return {
