@@ -50,7 +50,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   tasks,
   quickNotes,
   diary,
-  teacherName = 'Cô Diễm Hương',
+  teacherName = 'GVCN',
   onNavigate,
   onAddQuickNote,
   onDeleteQuickNote,

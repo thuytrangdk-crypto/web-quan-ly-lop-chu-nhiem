@@ -132,7 +132,7 @@ export const ExcelImportModal: React.FC<ExcelImportModalProps> = ({
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200">
             <div>
               <div className="text-xs font-bold text-slate-800">
-                1. Tải mẫu Excel chuẩn dành cho lớp 8
+                1. Tải mẫu Excel chuẩn danh sách học sinh
               </div>
               <p className="text-[11px] text-slate-500 mt-0.5">
                 Chứa sẵn các cột STT, Mã HS, Họ tên, Giới tính, Ngày sinh, Tổ, SĐT phụ huynh...

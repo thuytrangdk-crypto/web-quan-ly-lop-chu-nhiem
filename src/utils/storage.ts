@@ -83,8 +83,8 @@ export function loadAppState(): AppState {
     };
 
     // Tự động cập nhật từ gốc nếu còn lưu tên GVCN cũ hoặc lớp cũ
-    if (settings.teacherName === 'Cô Thùy Trang') {
-      settings.teacherName = 'Cô Diễm Hương';
+    if (!settings.teacherName || settings.teacherName === 'Cô Thùy Trang' || settings.teacherName.includes('Thùy Trang')) {
+      settings.teacherName = 'GVCN';
     }
     if (settings.className === 'Lớp 8A1' || settings.className === 'Lớp 8A3') {
       settings.className = 'Lớp 9A5';

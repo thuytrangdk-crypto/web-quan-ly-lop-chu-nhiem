@@ -8,8 +8,8 @@ export function generateStandaloneHtml(state: AppState): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRỢ LÝ CHỦ NHIỆM – ${state.settings.teacherName || 'CÔ DIỄM HƯƠNG'}</title>
-  <meta name="description" content="Ứng dụng trợ lý chủ nhiệm dành cho ${state.settings.teacherName || 'Cô Diễm Hương'}">
+  <title>TRỢ LÝ CHỦ NHIỆM – ${state.settings.teacherName || 'GVCN'}</title>
+  <meta name="description" content="Ứng dụng trợ lý chủ nhiệm dành cho ${state.settings.teacherName || 'GVCN'}">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Font -->
@@ -289,7 +289,7 @@ export function generateStandaloneHtml(state: AppState): string {
               {currentTab === 'dashboard' && (
                 <div className="space-y-6">
                   <div className="p-6 rounded-2xl bg-gradient-to-r from-blue-700 via-teal-600 to-emerald-500 text-white shadow-md">
-                    <h2 className="text-xl sm:text-2xl font-bold">Xin chào ${state.settings.teacherName || 'Cô Diễm Hương'}!</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold">Xin chào ${state.settings.teacherName || 'GVCN'}!</h2>
                     <p className="mt-1 text-xs sm:text-sm text-blue-100">
                       Tập thể {currentClass.name} có {currentStudents.length} học sinh. Hôm nay có {presentCount} bạn có mặt.
                     </p>
@@ -434,7 +434,7 @@ export function generateStandaloneHtml(state: AppState): string {
                     <button onClick={() => window.print()} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-semibold cursor-pointer">In báo cáo</button>
                   </div>
                   <div className="text-center py-4 border-b border-slate-200">
-                    <h3 className="font-bold uppercase text-slate-900 text-lg">BÁO CÁO CÔNG TÁC CHỦ NHIỆM LỚP 8</h3>
+                    <h3 className="font-bold uppercase text-slate-900 text-lg">BÁO CÁO CÔNG TÁC CHỦ NHIỆM</h3>
                     <p className="text-xs text-slate-500 mt-1">Trường: {data.settings.schoolName} • Lớp: {currentClass.name} • GVCN: {data.settings.teacherName}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-xs">

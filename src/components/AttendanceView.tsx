@@ -245,7 +245,7 @@ export const AttendanceView: React.FC<AttendanceViewProps> = ({
                 <Users className="w-4 h-4 text-slate-500" />
               </div>
               <div className="mt-2 text-2xl font-black text-slate-800">{students.length}</div>
-              <p className="text-[11px] text-slate-500 mt-0.5">Học sinh lớp 8</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">Học sinh trong lớp</p>
             </div>
           </div>
 

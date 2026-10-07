@@ -190,7 +190,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `TroLyChuNhiemLop8_CoThuyTrang_DocLap.html`;
+    a.download = `TroLyChuNhiem_GVCN_DocLap.html`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -767,7 +767,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               XUẤT SẢN PHẨM MỘT FILE HTML ĐỘC LẬP DUY NHẤT
             </h3>
             <p className="text-xs text-teal-800">
-              Tạo một tệp HTML trọn gói (.html) chứa toàn bộ CSS, JS và dữ liệu lớp 8 hiện tại để mở trên bất kỳ máy tính nào mà không cần cài đặt hay internet!
+              Tạo một tệp HTML trọn gói (.html) chứa toàn bộ CSS, JS và dữ liệu lớp học hiện tại để mở trên bất kỳ máy tính nào mà không cần cài đặt hay internet!
             </p>
           </div>
         </div>

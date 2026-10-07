@@ -1,4 +1,4 @@
-// Định nghĩa toàn bộ kiểu dữ liệu cho Trợ lý chủ nhiệm lớp 8
+// Định nghĩa toàn bộ kiểu dữ liệu cho Trợ lý chủ nhiệm (GVCN)
 
 export type Gender = 'Nam' | 'Nữ';
 
