@@ -1,6 +1,6 @@
 {
-  "name": "Trợ Lý Chủ Nhiệm - GVCN",
-  "description": "Ứng dụng trợ lý đắc lực cho giáo viên chủ nhiệm (GVCN): theo dõi học sinh, điểm danh chuyên cần, thi đua nề nếp, sổ nhật ký và công việc.",
+  "name": "Trợ Lý Chủ Nhiệm - GVCN: Nguyễn Thị Diểm Hương",
+  "description": "Ứng dụng trợ lý đắc lực cho giáo viên chủ nhiệm Nguyễn Thị Diểm Hương - THCS Nguyễn Huệ - Phường Phú Thọ Hòa: theo dõi học sinh, điểm danh chuyên cần, thi đua nề nếp, sổ nhật ký và công việc.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
