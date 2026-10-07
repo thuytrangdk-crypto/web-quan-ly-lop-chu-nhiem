@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, Menu, Bell, UserCheck, ShieldCheck, ChevronDown, Home, Settings, LogOut, User, GraduationCap, School } from 'lucide-react';
+import { Calendar, Clock, Menu, Bell, UserCheck, ShieldCheck, ChevronDown, Home, Settings, LogOut, User, GraduationCap, School, Database } from 'lucide-react';
 import { ClassSettings, UserSession } from '../types';
 import { getFullVietnameseDate } from '../utils/storage';
 
@@ -15,6 +15,7 @@ interface HeaderProps {
   onOpenChangePasswordModal: () => void;
   onLogout: () => void;
   onOpenOwnProfile?: () => void;
+  onOpenSupabaseModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -29,6 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenChangePasswordModal,
   onLogout,
   onOpenOwnProfile,
+  onOpenSupabaseModal,
 }) => {
   const [currentTime, setCurrentTime] = useState<string>('');
   const [isTeacherMenuOpen, setIsTeacherMenuOpen] = useState(false);
@@ -175,6 +177,20 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <Settings className="w-3.5 h-3.5 text-indigo-600" />
               <span>Cài đặt</span>
+            </button>
+          )}
+
+          {/* NÚT SUPABASE CLOUD (DÀNH CHO GVCN) */}
+          {isTeacher && onOpenSupabaseModal && (
+            <button
+              type="button"
+              onClick={onOpenSupabaseModal}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 transition-colors cursor-pointer shadow-2xs"
+              title="Quản lý và đồng bộ dữ liệu đám mây Supabase"
+            >
+              <Database className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="hidden sm:inline">Supabase</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             </button>
           )}
 

@@ -16,6 +16,8 @@ import { ExcelImportModal } from './components/ExcelImportModal';
 import { ClassSwitchModal } from './components/ClassSwitchModal';
 import { TeacherAuthModal } from './components/TeacherAuthModal';
 import { LoginPortal } from './components/LoginPortal';
+import { SupabaseModal } from './components/SupabaseModal';
+import { saveAppStateToSupabase, fetchAppStateFromSupabase } from './lib/supabaseSync';
 import {
   Student,
   ConductCriterion,
@@ -46,6 +48,7 @@ export default function App() {
   const [activeStudentModalId, setActiveStudentModalId] = useState<string | null>(null);
   const [isExcelModalOpen, setIsExcelModalOpen] = useState(false);
   const [isClassSwitchModalOpen, setIsClassSwitchModalOpen] = useState(false);
+  const [isSupabaseModalOpen, setIsSupabaseModalOpen] = useState(false);
 
   // Authentication State: Bắt đầu trang ai cũng cần mật khẩu (GVCN hoặc Học sinh)
   const [currentUser, setCurrentUser] = useState<UserSession | null>(() => {
@@ -79,9 +82,32 @@ export default function App() {
     onConfirm: () => {},
   });
 
-  // Tự động lưu LocalStorage mỗi khi state thay đổi
+  // Tự động tải dữ liệu đám mây từ Supabase khi mở ứng dụng (nếu đã tạo bảng)
+  useEffect(() => {
+    let isMounted = true;
+    fetchAppStateFromSupabase()
+      .then((remoteState) => {
+        if (!isMounted) return;
+        if (remoteState && remoteState.students && remoteState.students.length > 0) {
+          setAppState(remoteState);
+        } else {
+          // Nếu Supabase chưa có bản ghi, lưu bản ghi khởi tạo lên
+          saveAppStateToSupabase(appState).catch(() => {});
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Tự động lưu LocalStorage và đồng bộ lên Supabase mỗi khi state thay đổi
   useEffect(() => {
     saveAppState(appState);
+    const timer = setTimeout(() => {
+      saveAppStateToSupabase(appState).catch(() => {});
+    }, 2000);
+    return () => clearTimeout(timer);
   }, [appState]);
 
   // Lưu trạng thái đăng nhập của giáo viên
@@ -95,14 +121,14 @@ export default function App() {
   const currentClass =
     appState.classes?.find((c) => c.id === appState.activeClassId) ||
     appState.classes?.[0] || {
-      id: 'class-8a1',
-      name: appState.settings.className || 'Lớp 8A1',
-      grade: 8,
+      id: 'class-9a5',
+      name: appState.settings.className || 'Lớp 9A5',
+      grade: 9,
     };
 
   // Học sinh thuộc lớp chủ nhiệm hiện tại
   const activeStudents = appState.students.filter(
-    (s) => (s.classId || 'class-8a1') === currentClass.id
+    (s) => (s.classId || 'class-9a5') === currentClass.id
   );
 
   // Toast Helper
@@ -486,7 +512,7 @@ export default function App() {
       isOpen: true,
       title: 'Khôi phục về dữ liệu mẫu ban đầu?',
       message:
-        'Thao tác này sẽ tải lại 10 học sinh mẫu lớp 8 và các thiết lập mặc định của Cô Thùy Trang. Dữ liệu đang có sẽ được thay thế.',
+        'Thao tác này sẽ tải lại 10 học sinh mẫu Lớp 9A5 và các thiết lập mặc định của Cô Diễm Hương. Dữ liệu đang có sẽ được thay thế.',
       confirmLabel: 'Khôi phục mẫu',
       isDangerous: false,
       onConfirm: () => {
@@ -607,6 +633,15 @@ export default function App() {
         onShowToast={showToast}
       />
 
+      {/* Modal Cấu Hình & Đồng Bộ Supabase */}
+      <SupabaseModal
+        isOpen={isSupabaseModalOpen}
+        appState={appState}
+        onClose={() => setIsSupabaseModalOpen(false)}
+        onApplyRemoteState={(remote) => setAppState(remote)}
+        onShowToast={showToast}
+      />
+
       {/* Header Bar */}
       <Header
         settings={appState.settings}
@@ -627,6 +662,7 @@ export default function App() {
           setTeacherAuthMode('change_password');
           setIsTeacherAuthModalOpen(true);
         }}
+        onOpenSupabaseModal={() => setIsSupabaseModalOpen(true)}
         onLogout={handleLogout}
         onOpenOwnProfile={() => {
           if (currentUser?.studentId) {
@@ -666,6 +702,7 @@ export default function App() {
               tasks={appState.tasks}
               quickNotes={appState.quickNotes}
               diary={appState.diary}
+              teacherName={appState.settings.teacherName}
               onNavigate={setCurrentTab}
               onAddQuickNote={handleAddQuickNote}
               onDeleteQuickNote={handleDeleteQuickNote}
@@ -792,6 +829,7 @@ export default function App() {
                 setTeacherAuthMode('change_password');
                 setIsTeacherAuthModalOpen(true);
               }}
+              onOpenSupabaseModal={() => setIsSupabaseModalOpen(true)}
               onTeacherLogout={handleLogout}
             />
           )}

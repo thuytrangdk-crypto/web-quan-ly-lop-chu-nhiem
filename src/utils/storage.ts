@@ -64,8 +64,17 @@ export function loadAppState(): AppState {
     const quickNotesStr = localStorage.getItem(STORAGE_KEYS.QUICK_NOTES);
 
     const parsedClasses = classesStr ? JSON.parse(classesStr) : null;
-    const classes: ClassProfile[] = Array.isArray(parsedClasses) && parsedClasses.length > 0 ? parsedClasses : DEFAULT_CLASSES;
-    const activeClassId = activeClassStr || (classes[0] ? classes[0].id : 'class-8a1');
+    let classes: ClassProfile[] = Array.isArray(parsedClasses) && parsedClasses.length > 0 ? parsedClasses : DEFAULT_CLASSES;
+
+    // Tự động nâng cấp nếu còn lưu lớp cũ class-8a1 / Lớp 8A3
+    classes = classes.map((c) => {
+      if (c.id === 'class-8a1' || c.name === 'Lớp 8A1' || c.name === 'Lớp 8A3') {
+        return { ...c, id: 'class-9a5', name: 'Lớp 9A5', grade: 9 };
+      }
+      return c;
+    });
+
+    const activeClassId = activeClassStr === 'class-8a1' ? 'class-9a5' : (activeClassStr || (classes[0] ? classes[0].id : 'class-9a5'));
     
     const parsedSettings = settingsStr ? JSON.parse(settingsStr) : null;
     const settings: ClassSettings = {
@@ -73,12 +82,20 @@ export function loadAppState(): AppState {
       ...(parsedSettings && typeof parsedSettings === 'object' ? parsedSettings : {}),
     };
 
+    // Tự động cập nhật từ gốc nếu còn lưu tên GVCN cũ hoặc lớp cũ
+    if (settings.teacherName === 'Cô Thùy Trang') {
+      settings.teacherName = 'Cô Diễm Hương';
+    }
+    if (settings.className === 'Lớp 8A1' || settings.className === 'Lớp 8A3') {
+      settings.className = 'Lớp 9A5';
+    }
+
     const parsedStudents = studentsStr ? JSON.parse(studentsStr) : null;
     const rawStudents: Student[] = Array.isArray(parsedStudents) ? parsedStudents : INITIAL_STUDENTS;
-    // Đảm bảo mỗi học sinh có classId
+    // Đảm bảo mỗi học sinh có classId chuẩn
     const students = rawStudents.map((s) => ({
       ...s,
-      classId: s.classId || 'class-8a1',
+      classId: s.classId === 'class-8a1' || !s.classId ? 'class-9a5' : s.classId,
     }));
 
     const parsedCriteria = criteriaStr ? JSON.parse(criteriaStr) : null;
@@ -105,7 +122,7 @@ export function loadAppState(): AppState {
     return {
       settings: DEFAULT_SETTINGS,
       classes: DEFAULT_CLASSES,
-      activeClassId: 'class-8a1',
+      activeClassId: 'class-9a5',
       students: INITIAL_STUDENTS,
       criteria: DEFAULT_CRITERIA,
       attendance: INITIAL_ATTENDANCE,

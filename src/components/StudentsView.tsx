@@ -77,7 +77,7 @@ export const StudentsView: React.FC<StudentsViewProps> = ({
   onDeleteConductRecord,
   onShowToast,
   onOpenExcelImport,
-  classNameTitle = 'Lớp 8',
+  classNameTitle = 'Lớp 9A5',
   isTeacherLoggedIn = true,
   teacherPassword = '123456',
   onTeacherLoginSuccess,
@@ -130,7 +130,7 @@ export const StudentsView: React.FC<StudentsViewProps> = ({
 
   const openAddModal = () => {
     setEditingStudent(null);
-    const nextCode = `HS08${String(students.length + 1).padStart(2, '0')}`;
+    const nextCode = `HS09${String(students.length + 1).padStart(2, '0')}`;
     setFormData({
       code: nextCode,
       name: '',

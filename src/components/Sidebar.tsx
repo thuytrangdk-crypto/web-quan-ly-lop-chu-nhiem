@@ -218,7 +218,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           })}
         </div>
 
-        {/* Sidebar Footer: Motivational card for Cô Thùy Trang */}
+        {/* Sidebar Footer: Motivational card */}
         <div className="p-4 border-t border-slate-100 bg-gradient-to-br from-blue-50/60 to-teal-50/50">
           <div className="flex items-start space-x-2.5">
             <div className="p-2 bg-teal-100 text-teal-700 rounded-xl shrink-0">
@@ -227,7 +227,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="text-xs">
               <p className="font-bold text-slate-800">Đồng hành cùng học sinh</p>
               <p className="text-slate-500 mt-0.5 leading-snug">
-                Mỗi ngày một niềm vui cùng tập thể lớp 8 thân yêu!
+                Mỗi ngày một niềm vui cùng tập thể lớp thân yêu!
               </p>
             </div>
           </div>

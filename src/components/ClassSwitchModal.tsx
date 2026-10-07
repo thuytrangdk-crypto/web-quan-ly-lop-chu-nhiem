@@ -211,7 +211,7 @@ export const ClassSwitchModal: React.FC<ClassSwitchModalProps> = ({
                   type="text"
                   value={newClassName}
                   onChange={(e) => setNewClassName(e.target.value)}
-                  placeholder="VD: Lớp 8A2, Lớp 8/2..."
+                  placeholder="VD: Lớp 9A6, Lớp 9A7..."
                   required
                   className="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs"
                 />
@@ -222,7 +222,7 @@ export const ClassSwitchModal: React.FC<ClassSwitchModalProps> = ({
                   type="text"
                   value={newClassRoom}
                   onChange={(e) => setNewClassRoom(e.target.value)}
-                  placeholder="VD: Phòng 205"
+                  placeholder="VD: Phòng 306"
                   className="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs"
                 />
               </div>

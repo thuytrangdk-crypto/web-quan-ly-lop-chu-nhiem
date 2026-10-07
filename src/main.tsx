@@ -47,7 +47,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-800">
-                TRỢ LÝ CHỦ NHIỆM – CÔ THÙY TRANG
+                TRỢ LÝ CHỦ NHIỆM – CÔ DIỄM HƯƠNG
               </h2>
               <p className="text-xs text-slate-500 mt-1">
                 Hệ thống đang chuẩn bị hoặc gặp lỗi đọc dữ liệu tạm thời.

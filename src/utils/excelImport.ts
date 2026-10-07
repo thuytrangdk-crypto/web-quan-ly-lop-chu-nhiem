@@ -191,11 +191,11 @@ export function parseExcelFile(file: File): Promise<ParsedStudentRow[]> {
 }
 
 // Xuất file mẫu Excel (.xlsx) chuẩn cho giáo viên điền
-export function downloadExcelTemplate(className: string = '8A1') {
+export function downloadExcelTemplate(className: string = '9A5') {
   const templateData = [
     {
       'STT': 1,
-      'Mã học sinh': 'HS0801',
+      'Mã học sinh': 'HS0901',
       'Họ và tên': 'Nguyễn Văn An',
       'Giới tính': 'Nam',
       'Ngày sinh': '15/03/2012',

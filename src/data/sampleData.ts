@@ -1,17 +1,17 @@
-// DỮ LIỆU MẪU BAN ĐẦU - DÀNH CHO LỚP 8 CÔ THÙY TRANG
+// DỮ LIỆU MẪU BAN ĐẦU - DÀNH CHO LỚP 9A5 CÔ DIỄM HƯƠNG
 // Dễ dàng thay đổi danh sách học sinh và tiêu chí ở file này
 
 import { Student, ConductCriterion, AttendanceRecord, ConductRecord, DiaryEntry, TaskItem, QuickNote, ClassSettings, ClassProfile } from '../types';
 
 export const DEFAULT_CLASSES: ClassProfile[] = [
-  { id: 'class-8a1', name: 'Lớp 8A1', grade: 8, academicYear: '2026 - 2027', room: 'Phòng 204' },
-  { id: 'class-8a2', name: 'Lớp 8A2', grade: 8, academicYear: '2026 - 2027', room: 'Phòng 205' },
+  { id: 'class-9a5', name: 'Lớp 9A5', grade: 9, academicYear: '2026 - 2027', room: 'Phòng 305' },
+  { id: 'class-9a6', name: 'Lớp 9A6', grade: 9, academicYear: '2026 - 2027', room: 'Phòng 306' },
 ];
 
 export const DEFAULT_SETTINGS: ClassSettings = {
   schoolName: 'THCS Lê Quý Đôn',
-  className: 'Lớp 8A1',
-  teacherName: 'Cô Thùy Trang',
+  className: 'Lớp 9A5',
+  teacherName: 'Cô Diễm Hương',
   academicYear: '2026 - 2027',
   semester: 'Học kỳ I',
   targetStudentsCount: 10,
@@ -30,11 +30,12 @@ export const DEFAULT_SETTINGS: ClassSettings = {
   },
 };
 
-// Danh sách 10 học sinh giả lập lớp 8 (sinh năm 2012)
+// Danh sách 10 học sinh giả lập Lớp 9A5
 export const INITIAL_STUDENTS: Student[] = [
   {
     id: 'hs-1',
-    code: 'HS0801',
+    code: 'HS0901',
+    classId: 'class-9a5',
     name: 'Nguyễn Minh Quân',
     gender: 'Nam',
     dob: '2012-03-15',
@@ -52,7 +53,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-2',
-    code: 'HS0802',
+    code: 'HS0902',
+    classId: 'class-9a5',
     name: 'Trần Thảo Linh',
     gender: 'Nữ',
     dob: '2012-05-20',
@@ -70,7 +72,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-3',
-    code: 'HS0803',
+    code: 'HS0903',
+    classId: 'class-9a5',
     name: 'Lê Hoàng Long',
     gender: 'Nam',
     dob: '2012-08-10',
@@ -88,7 +91,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-4',
-    code: 'HS0804',
+    code: 'HS0904',
+    classId: 'class-9a5',
     name: 'Phạm Quỳnh Anh',
     gender: 'Nữ',
     dob: '2012-01-28',
@@ -106,7 +110,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-5',
-    code: 'HS0805',
+    code: 'HS0905',
+    classId: 'class-9a5',
     name: 'Vũ Đức Duy',
     gender: 'Nam',
     dob: '2012-11-04',
@@ -124,7 +129,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-6',
-    code: 'HS0806',
+    code: 'HS0906',
+    classId: 'class-9a5',
     name: 'Bùi Gia Hân',
     gender: 'Nữ',
     dob: '2012-07-19',
@@ -142,7 +148,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-7',
-    code: 'HS0807',
+    code: 'HS0907',
+    classId: 'class-9a5',
     name: 'Đặng Quốc Bảo',
     gender: 'Nam',
     dob: '2012-04-02',
@@ -160,7 +167,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-8',
-    code: 'HS0808',
+    code: 'HS0908',
+    classId: 'class-9a5',
     name: 'Đỗ Hà My',
     gender: 'Nữ',
     dob: '2012-09-14',
@@ -178,7 +186,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-9',
-    code: 'HS0809',
+    code: 'HS0909',
+    classId: 'class-9a5',
     name: 'Hoàng Anh Tuấn',
     gender: 'Nam',
     dob: '2012-12-25',
@@ -196,7 +205,8 @@ export const INITIAL_STUDENTS: Student[] = [
   },
   {
     id: 'hs-10',
-    code: 'HS0810',
+    code: 'HS0910',
+    classId: 'class-9a5',
     name: 'Ngô Khánh Linh',
     gender: 'Nữ',
     dob: '2012-06-30',

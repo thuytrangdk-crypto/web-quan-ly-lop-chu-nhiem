@@ -35,6 +35,7 @@ interface DashboardProps {
   tasks: TaskItem[];
   quickNotes: QuickNote[];
   diary: DiaryEntry[];
+  teacherName?: string;
   onNavigate: (tab: NavTab) => void;
   onAddQuickNote: (content: string) => void;
   onDeleteQuickNote: (id: string) => void;
@@ -48,6 +49,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
   conduct,
   tasks,
   quickNotes,
+  diary,
+  teacherName = 'Cô Diễm Hương',
   onNavigate,
   onAddQuickNote,
   onDeleteQuickNote,
@@ -117,7 +120,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-700 via-teal-600 to-emerald-500 p-6 sm:p-8 text-white shadow-lg shadow-blue-500/10">
         <div className="relative z-10 max-w-2xl">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md mb-3 border border-white/30">
-            👋 Chào Cô Thùy Trang
+            👋 Chào {teacherName}
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             Chúc cô một ngày giảng dạy tràn đầy năng lượng!

@@ -8,8 +8,8 @@ export function generateStandaloneHtml(state: AppState): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRỢ LÝ CHỦ NHIỆM – CÔ THÙY TRANG</title>
-  <meta name="description" content="Ứng dụng trợ lý chủ nhiệm dành cho Cô Thùy Trang">
+  <title>TRỢ LÝ CHỦ NHIỆM – ${state.settings.teacherName || 'CÔ DIỄM HƯƠNG'}</title>
+  <meta name="description" content="Ứng dụng trợ lý chủ nhiệm dành cho ${state.settings.teacherName || 'Cô Diễm Hương'}">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Font -->
@@ -102,9 +102,9 @@ export function generateStandaloneHtml(state: AppState): string {
         });
       };
 
-      const currentClassId = data.activeClassId || (data.classes && data.classes[0] ? data.classes[0].id : 'class-8a1');
-      const currentClass = (data.classes || []).find(c => c.id === currentClassId) || { id: 'class-8a1', name: data.settings.className || 'Lớp 8A1' };
-      const currentStudents = data.students.filter(s => (s.classId || 'class-8a1') === currentClass.id);
+      const currentClassId = data.activeClassId || (data.classes && data.classes[0] ? data.classes[0].id : 'class-9a5');
+      const currentClass = (data.classes || []).find(c => c.id === currentClassId) || { id: 'class-9a5', name: data.settings.className || 'Lớp 9A5' };
+      const currentStudents = data.students.filter(s => (s.classId || 'class-9a5') === currentClass.id);
 
       const todayStr = new Date().toISOString().slice(0, 10);
       const todayAttendance = data.attendance.filter(a => a.date === todayStr);
@@ -289,7 +289,7 @@ export function generateStandaloneHtml(state: AppState): string {
               {currentTab === 'dashboard' && (
                 <div className="space-y-6">
                   <div className="p-6 rounded-2xl bg-gradient-to-r from-blue-700 via-teal-600 to-emerald-500 text-white shadow-md">
-                    <h2 className="text-xl sm:text-2xl font-bold">Xin chào Cô Thùy Trang!</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold">Xin chào ${state.settings.teacherName || 'Cô Diễm Hương'}!</h2>
                     <p className="mt-1 text-xs sm:text-sm text-blue-100">
                       Tập thể {currentClass.name} có {currentStudents.length} học sinh. Hôm nay có {presentCount} bạn có mặt.
                     </p>
@@ -845,7 +845,7 @@ export function generateStandaloneHtml(state: AppState): string {
                   <button onClick={() => setShowClassSwitch(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">✕</button>
                 </div>
                 <div className="my-4 space-y-2">
-                  {(data.classes || [{ id: 'class-8a1', name: data.settings.className || 'Lớp 8A1' }]).map(c => (
+                  {(data.classes || [{ id: 'class-9a5', name: data.settings.className || 'Lớp 9A5' }]).map(c => (
                     <div
                       key={c.id}
                       onClick={() => {
@@ -867,7 +867,7 @@ export function generateStandaloneHtml(state: AppState): string {
                       type="text"
                       value={newClassNameInput}
                       onChange={(e) => setNewClassNameInput(e.target.value)}
-                      placeholder="VD: Lớp 8A2, Lớp 8A3..."
+                      placeholder="VD: Lớp 9A6, Lớp 9A7..."
                       className="flex-1 p-2 border border-slate-300 rounded-xl text-xs"
                     />
                     <button

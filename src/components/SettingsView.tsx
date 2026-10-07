@@ -18,6 +18,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Sliders,
+  Database,
 } from 'lucide-react';
 import { ClassSettings, ConductCriterion, ConductRatingThresholds } from '../types';
 import { AppState, exportBackupJSON, importBackupJSON } from '../utils/storage';
@@ -41,6 +42,7 @@ interface SettingsViewProps {
   onOpenTeacherLoginModal?: () => void;
   onOpenChangePasswordModal?: () => void;
   onTeacherLogout?: () => void;
+  onOpenSupabaseModal?: () => void;
 }
 
 export const SettingsView: React.FC<SettingsViewProps> = ({
@@ -59,6 +61,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   onOpenTeacherLoginModal,
   onOpenChangePasswordModal,
   onTeacherLogout,
+  onOpenSupabaseModal,
 }) => {
   const [formData, setFormData] = useState<ClassSettings>(settings);
   const [isCopiedHtml, setIsCopiedHtml] = useState(false);
@@ -153,7 +156,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   };
 
   const handleResetCriteriaToDefault = () => {
-    if (confirm('Khôi phục danh sách tiêu chí sự việc về mặc định chuẩn của lớp 8?')) {
+    if (confirm('Khôi phục danh sách tiêu chí sự việc về mặc định chuẩn?')) {
       setCriteriaList(DEFAULT_CRITERIA);
       onUpdateCriteria(DEFAULT_CRITERIA);
       onShowToast('Đã khôi phục danh sách tiêu chí mặc định!');
@@ -885,6 +888,47 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* KHỐI 3.5: CƠ SỞ DỮ LIỆU ĐÁM MÂY SUPABASE */}
+      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 sm:p-6">
+        <div className="flex items-center space-x-2.5 pb-4 border-b border-slate-100">
+          <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+            <Database className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="font-bold text-slate-800 text-sm sm:text-base">
+              KẾT NỐI CƠ SỞ DỮ LIỆU ĐÁM MÂY SUPABASE
+            </h3>
+            <p className="text-xs text-slate-400">
+              Đồng bộ dữ liệu lớp học trực tuyến trên máy chủ Supabase PostgreSQL
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-4 p-4 rounded-xl bg-emerald-50/60 border border-emerald-200/80 space-y-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="text-xs font-bold text-emerald-900">
+                Đã kết nối dự án: <span className="font-mono">https://sohuavueougdlsqerwuk.supabase.co</span>
+              </span>
+            </div>
+            {onOpenSupabaseModal && (
+              <button
+                type="button"
+                onClick={onOpenSupabaseModal}
+                className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs cursor-pointer flex items-center gap-1.5 transition-colors"
+              >
+                <Database className="w-3.5 h-3.5" />
+                <span>Xem trạng thái & Hướng dẫn tạo bảng</span>
+              </button>
+            )}
+          </div>
+          <p className="text-xs text-emerald-800 leading-relaxed">
+            Dữ liệu lớp học sẽ được tự động lưu lên đám mây Supabase song song với máy của cô, giúp mở trang web ở điện thoại, máy tính trường hay Vercel đều được đồng bộ đầy đủ.
+          </p>
         </div>
       </div>
 
