@@ -1,4 +1,4 @@
-// DỮ LIỆU MẪU BAN ĐẦU - DÀNH CHO LỚP 9A5 CÔ DIỄM HƯƠNG
+// DỮ LIỆU MẪU BAN ĐẦU - DÀNH CHO LỚP 9A5 CÔ NGUYỄN THỊ DIỂM HƯƠNG
 // Dễ dàng thay đổi danh sách học sinh và tiêu chí ở file này
 
 import { Student, ConductCriterion, AttendanceRecord, ConductRecord, DiaryEntry, TaskItem, QuickNote, ClassSettings, ClassProfile } from '../types';
@@ -9,9 +9,9 @@ export const DEFAULT_CLASSES: ClassProfile[] = [
 ];
 
 export const DEFAULT_SETTINGS: ClassSettings = {
-  schoolName: 'THCS Lê Quý Đôn',
+  schoolName: 'THCS Nguyễn Huệ - Phường Phú Thọ Hòa',
   className: 'Lớp 9A5',
-  teacherName: 'Cô Diễm Hương',
+  teacherName: 'Nguyễn Thị Diểm Hương',
   academicYear: '2026 - 2027',
   semester: 'Học kỳ I',
   targetStudentsCount: 10,

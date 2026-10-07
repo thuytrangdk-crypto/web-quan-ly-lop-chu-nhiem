@@ -108,9 +108,9 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
-              <div className="flex items-center gap-2 mt-0.5">
-                <p className="text-xs sm:text-sm font-medium text-teal-700 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+              <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                <p className="text-xs sm:text-sm font-medium text-teal-700 flex items-center gap-1.5 whitespace-nowrap">
+                  <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse shrink-0"></span>
                   GVCN: <span className="font-bold text-slate-800">{settings.teacherName}</span>
                 </p>
 

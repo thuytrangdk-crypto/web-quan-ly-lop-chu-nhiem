@@ -512,7 +512,7 @@ export default function App() {
       isOpen: true,
       title: 'Khôi phục về dữ liệu mẫu ban đầu?',
       message:
-        'Thao tác này sẽ tải lại 10 học sinh mẫu Lớp 9A5 và các thiết lập mặc định của Cô Diễm Hương. Dữ liệu đang có sẽ được thay thế.',
+        'Thao tác này sẽ tải lại 10 học sinh mẫu Lớp 9A5 và các thiết lập mặc định của Cô Nguyễn Thị Diểm Hương. Dữ liệu đang có sẽ được thay thế.',
       confirmLabel: 'Khôi phục mẫu',
       isDangerous: false,
       onConfirm: () => {

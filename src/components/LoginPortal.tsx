@@ -32,7 +32,7 @@ export const LoginPortal: React.FC<LoginPortalProps> = ({
   teacherName,
   teacherPassword = '123456',
   classNameTitle = 'Lớp 9A5',
-  schoolName = 'THCS Lê Quý Đôn',
+  schoolName = 'THCS Nguyễn Huệ - Phường Phú Thọ Hòa',
   onLoginAsTeacher,
   onLoginAsStudent,
   onShowToast,
