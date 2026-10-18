@@ -20,6 +20,7 @@ import {
   FileSpreadsheet,
   Lock,
   ShieldCheck,
+  Download,
 } from 'lucide-react';
 import {
   Student,
@@ -32,10 +33,13 @@ import {
   ConductCriterion,
   UserSession,
   ConductRatingThresholds,
+  ClassSettings,
 } from '../types';
 import { formatDateVN } from '../utils/storage';
 import { StudentAuthModal } from './StudentAuthModal';
 import { StudentProfileModal, calculateConductRating } from './StudentProfileModal';
+import { ConductExcelExportModal } from './ConductExcelExportModal';
+import { exportStudentListToExcel } from '../utils/excelImport';
 
 interface StudentsViewProps {
   students: Student[];
@@ -44,6 +48,7 @@ interface StudentsViewProps {
   criteria?: ConductCriterion[];
   currentUser?: UserSession | null;
   ratingThresholds?: ConductRatingThresholds;
+  settings?: ClassSettings;
   onAddStudent: (student: Omit<Student, 'id'>) => void;
   onUpdateStudent: (student: Student) => void;
   onDeleteStudent: (studentId: string) => void;
@@ -67,6 +72,7 @@ export const StudentsView: React.FC<StudentsViewProps> = ({
   criteria = [],
   currentUser,
   ratingThresholds,
+  settings,
   onAddStudent,
   onUpdateStudent,
   onDeleteStudent,
@@ -88,6 +94,21 @@ export const StudentsView: React.FC<StudentsViewProps> = ({
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [copiedPhone, setCopiedPhone] = useState<string | null>(null);
+
+  // Modal Xuất Excel thi đua
+  const [isConductExportModalOpen, setIsConductExportModalOpen] = useState(false);
+
+  // Cấu hình lớp học
+  const defaultClassSettings: ClassSettings = {
+    schoolName: 'THCS Nguyễn Huệ - Phường Phú Thọ Hòa',
+    className: classNameTitle || 'Lớp 9A5',
+    teacherName: 'Nguyễn Thị Diểm Hương',
+    academicYear: '2026 - 2027',
+    semester: 'Học kỳ 1',
+    targetStudentsCount: students.length,
+    ratingThresholds,
+  };
+  const activeSettings = settings || defaultClassSettings;
 
   // Mật khẩu ngày sinh
   const [isPasswordProtectionEnabled, setIsPasswordProtectionEnabled] = useState(true);
@@ -319,6 +340,39 @@ export const StudentsView: React.FC<StudentsViewProps> = ({
             </button>
           )}
 
+          {/* Nút Xuất Excel thi đua (chỉ GVCN) */}
+          {isTeacherLoggedIn && (
+            <button
+              type="button"
+              onClick={() => setIsConductExportModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-xs hover:shadow-md transition-all cursor-pointer"
+              title="Xuất bảng tổng hợp & chi tiết thi đua của toàn bộ học sinh ra tệp Excel (.xlsx)"
+            >
+              <FileSpreadsheet className="w-4 h-4 text-white" />
+              <span>Xuất Excel thi đua</span>
+            </button>
+          )}
+
+          {/* Nút Xuất danh sách học sinh (giữ nguyên & bổ sung chức năng xuất Excel học sinh) */}
+          {isTeacherLoggedIn && (
+            <button
+              type="button"
+              onClick={() => {
+                try {
+                  exportStudentListToExcel(students, classNameTitle || activeSettings.className);
+                  onShowToast(`Đã xuất danh sách ${students.length} học sinh ra file Excel!`, 'success');
+                } catch (err: any) {
+                  onShowToast(err.message || 'Lỗi khi xuất danh sách học sinh', 'error');
+                }
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold transition-colors shadow-2xs cursor-pointer"
+              title="Xuất danh sách học sinh ra file Excel"
+            >
+              <Download className="w-4 h-4 text-slate-500" />
+              <span>Xuất DS học sinh</span>
+            </button>
+          )}
+
           {/* Nút Nhập Excel (chỉ GVCN) */}
           {isTeacherLoggedIn && (
             <button
@@ -336,7 +390,7 @@ export const StudentsView: React.FC<StudentsViewProps> = ({
           {isTeacherLoggedIn && (
             <button
               onClick={openAddModal}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               Thêm học sinh
@@ -875,6 +929,19 @@ export const StudentsView: React.FC<StudentsViewProps> = ({
             </form>
           </div>
         </div>
+      )}
+
+      {/* Hộp thoại Xuất Excel thi đua nề nếp */}
+      {isConductExportModalOpen && (
+        <ConductExcelExportModal
+          isOpen={isConductExportModalOpen}
+          onClose={() => setIsConductExportModalOpen(false)}
+          students={students}
+          conduct={conduct}
+          settings={activeSettings}
+          classNameTitle={classNameTitle || activeSettings.className}
+          onShowToast={onShowToast}
+        />
       )}
     </div>
   );

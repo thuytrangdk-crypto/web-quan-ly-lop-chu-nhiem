@@ -282,3 +282,54 @@ export function downloadExcelTemplate(className: string = '9A5') {
 
   XLSX.writeFile(workbook, `Mau_Danh_Sach_Hoc_Sinh_${className}.xlsx`);
 }
+
+/**
+ * Xuất danh sách học sinh thực tế của lớp hiện tại ra tệp Excel (.xlsx)
+ */
+export function exportStudentListToExcel(students: Student[], className: string = '9A5') {
+  if (!students || students.length === 0) {
+    throw new Error('Chưa có dữ liệu học sinh trong lớp để xuất!');
+  }
+
+  const exportData = students.map((s, idx) => ({
+    'STT': idx + 1,
+    'Mã học sinh': s.code,
+    'Họ và tên': s.name,
+    'Giới tính': s.gender,
+    'Ngày sinh': s.dob ? s.dob.split('-').reverse().join('/') : '',
+    'Tổ': s.group,
+    'Chức vụ': s.role,
+    'Họ tên phụ huynh': s.parentName,
+    'Số điện thoại phụ huynh': s.parentPhone,
+    'Địa chỉ': s.address || '',
+    'Trạng thái': s.status,
+    'Học tập': s.academicStatus,
+    'Ghi chú': s.note || '',
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+  // Set column widths
+  worksheet['!cols'] = [
+    { wch: 6 },  // STT
+    { wch: 14 }, // Mã học sinh
+    { wch: 24 }, // Họ và tên
+    { wch: 10 }, // Giới tính
+    { wch: 14 }, // Ngày sinh
+    { wch: 8 },  // Tổ
+    { wch: 18 }, // Chức vụ
+    { wch: 22 }, // Họ tên phụ huynh
+    { wch: 18 }, // SĐT
+    { wch: 25 }, // Địa chỉ
+    { wch: 14 }, // Trạng thái
+    { wch: 14 }, // Học tập
+    { wch: 30 }, // Ghi chú
+  ];
+
+  const workbook = XLSX.utils.book_new();
+  const safeClassName = className.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_\u00C0-\u1EF9]/g, '');
+  XLSX.utils.book_append_sheet(workbook, worksheet, `HocSinh_${safeClassName}`);
+
+  XLSX.writeFile(workbook, `Danh_Sach_Hoc_Sinh_${safeClassName}.xlsx`);
+}
+

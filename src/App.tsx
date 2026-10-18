@@ -721,6 +721,7 @@ export default function App() {
               criteria={appState.criteria}
               currentUser={currentUser}
               ratingThresholds={appState.settings.ratingThresholds}
+              settings={appState.settings}
               onAddStudent={handleAddStudent}
               onUpdateStudent={handleUpdateStudent}
               onDeleteStudent={handleDeleteStudent}
